@@ -4,6 +4,7 @@ import torchvision.transforms as transforms
 from sotabench.image_classification import imagenet, cifar10
 import torch
 import PIL
+import urllib.request
 
 def se_resnet20(**kwargs):
     from senet.se_resnet import se_resnet20 as _se_resnet20
