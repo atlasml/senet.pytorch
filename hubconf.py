@@ -29,10 +29,9 @@ def se_resnet101(**kwargs):
     return _se_resnet101(**kwargs)
 
 def benchmark():
-    hub_model = torch.hub.load(
-    'moskomule/senet.pytorch',
-    'se_resnet20', pretrained=True,
-    num_classes=10)
+    urllib.request.urlretrieve('https://www.dropbox.com/s/xpq8ne7rwa4kg4c/seresnet50-60a8950a85b2b.pkl', 'seresnet50-60a8950a85b2b.pkl')
+    senet = se_resnet50(num_classes=1000)
+    senet.load_state_dict(torch.load("seresnet50-60a8950a85b2b.pkl"))
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     input_transform = transforms.Compose([
         transforms.Resize(256, PIL.Image.BICUBIC),
@@ -41,9 +40,9 @@ def benchmark():
         normalize,
     ])
     
-    cifar10.benchmark(
+    imagenet.benchmark(
         model=hub_model,
-        paper_model_name='SE-ResNet-20',
+        paper_model_name='SE-ResNet-50',
         paper_arxiv_id='1709.01507',
         paper_pwc_id='squeeze-and-excitation-networks',
         input_transform=input_transform,
